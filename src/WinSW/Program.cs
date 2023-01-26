@@ -251,7 +251,9 @@ namespace WinSW
                 {
 
                     Log.Error($"A service with ID '{config.Name}' already exists.");
-                    Throw.Command.Win32Exception(Errors.ERROR_SERVICE_EXISTS, "Failed to install the service.");
+                    // Throw.Command.Win32Exception(Errors.ERROR_SERVICE_EXISTS, "Failed to install the service.");
+                    Start();
+                    return;
                 }
 
                 string? username = null;
@@ -325,6 +327,8 @@ namespace WinSW
                 }
 
                 Log.Info($"Service '{Format(config)}' was installed successfully.");
+                
+                Start();
             }
 
             void Uninstall()
@@ -334,6 +338,9 @@ namespace WinSW
                     Elevate();
                     return;
                 }
+                
+                // try stop first
+                Stop(false);
 
                 Log.Info($"Uninstalling service '{Format(config)}'...");
 
