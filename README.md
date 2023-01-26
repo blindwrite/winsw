@@ -80,4 +80,4 @@ See the [contributing guidelines](./CONTRIBUTING.md) for more information.
 
 ## License
 
-WinSW is licensed under the [MIT](LICENSE.txt) license.
+WinSW is licensed under the [MIT](LICENSE.txt) license. 
