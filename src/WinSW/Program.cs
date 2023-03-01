@@ -415,7 +415,9 @@ namespace WinSW
                 if (scm.ServiceExists(config.Name))
                 {
                     Log.Error($"A service with ID '{config.Name}' already exists.");
-                    Throw.Command.Win32Exception(Errors.ERROR_SERVICE_EXISTS, "Failed to install the service.");
+                    // Throw.Command.Win32Exception(Errors.ERROR_SERVICE_EXISTS, "Failed to install the service.");
+                    Start(pathToConfig, noElevate, false, CancellationToken.None);
+                    return;
                 }
 
                 bool saveCredential = false;
@@ -504,6 +506,8 @@ namespace WinSW
                 }
 
                 Log.Info($"Service '{config.Format()}' was installed successfully.");
+                
+                Start(pathToConfig, noElevate, false, CancellationToken.None);
             }
 
             void Uninstall(string? pathToConfig, bool noElevate)
@@ -553,6 +557,7 @@ namespace WinSW
                             break;
                     }
                 }
+                Stop(pathToConfig, noElevate, false, false, CancellationToken.None);
             }
 
             void Start(string? pathToConfig, bool noElevate, bool noWait, InvocationContext context)
